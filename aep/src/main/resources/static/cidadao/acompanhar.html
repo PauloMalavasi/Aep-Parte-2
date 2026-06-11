@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Protocolo — ObservaAção</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="oa-topbar">
+        <button class="btn-topbar" onclick="window.location='/'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Início
+        </button>
+        <span class="topbar-title">Consultar Protocolo</span>
+        <div style="width:80px;"></div>
+    </div>
+
+    <div class="container my-4" style="max-width:940px;">
+
+        <div class="search-card mb-4">
+            <p>Digite o número do protocolo para acompanhar o andamento do seu chamado.</p>
+            <div class="search-row">
+                <input type="text" id="inputProtocolo" class="oa-input"
+                    placeholder="Ex.: 2026001" aria-label="Número do protocolo">
+                <button class="btn-oa btn-oa-primary" onclick="buscarChamado()"
+                        style="white-space:nowrap; padding:.7rem 1.25rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    Consultar
+                </button>
+            </div>
+        </div>
+
+        <div id="nao-encontrado" style="display:none;" class="mb-3">
+            <div class="oa-alert-warn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div>
+                    <strong>Protocolo não encontrado.</strong>
+                    <span> Verifique o número digitado e tente novamente.</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultado-busca" style="display:none;">
+            <div class="row g-3">
+
+                <div class="col-md-5">
+                    <div class="oa-section h-100">
+                        <div class="section-eyebrow">Detalhes do chamado</div>
+                        <div class="detail-row">
+                            <div class="dl">Protocolo</div>
+                            <div class="dv proto" id="txtProtocolo">—</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="dl">Tipo</div>
+                            <div class="dv" id="txtTipo">—</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="dl">Data de abertura</div>
+                            <div class="dv" id="txtData">—</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="dl">Localização</div>
+                            <div class="dv" id="txtLocalizacao">—</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="dl">Descrição</div>
+                            <div class="dv" id="txtDescricao">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+
+                    <div class="oa-section mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span style="font-size:.72rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--oa-muted);">
+                                Status atual
+                            </span>
+                            <span id="badgeStatus">—</span>
+                        </div>
+                        <div style="font-size:.78rem; color:var(--oa-muted); margin-top:.5rem;"
+                             id="txtUltimaAtualizacao"></div>
+                    </div>
+
+                    <div class="oa-section mb-3">
+                        <div class="section-eyebrow">Histórico do chamado</div>
+                        <div id="timeline-historico">
+                            <p style="font-size:.875rem; color:var(--oa-muted); margin:0;">
+                                Nenhuma movimentação registrada.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="oa-section">
+                        <div class="section-eyebrow">Comentários</div>
+                        <div id="comentarios-prefeitura">
+                            <p style="font-size:.875rem; color:var(--oa-muted); margin:0;">
+                                Nenhum comentário registrado.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="oa-footer">
+        <div class="container text-center">
+            <small><strong>ObservaAção</strong> &copy; 2026 — Prefeitura de Maringá</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+
+        async function buscarChamado() {
+            const input = document.getElementById('inputProtocolo').value.trim();
+
+            if (!input) {
+                alert('Informe o número do protocolo.');
+                return;
+            }
+
+            // Aceita "2026001" (com ano) ou só "1" — se tiver 7+ dígitos, descarta os 4 primeiros (ano)
+            const numero = input.length >= 7 ? parseInt(input.substring(4)) : parseInt(input);
+            if (!numero || isNaN(numero)) {
+                alert('Protocolo inválido.');
+                return;
+            }
+
+            document.getElementById('resultado-busca').style.display = 'none';
+            document.getElementById('nao-encontrado').style.display  = 'none';
+
+            try {
+                const chamado = await buscarPorProtocolo(numero);
+
+                if (!chamado || !chamado.id) {
+                    document.getElementById('nao-encontrado').style.display = 'block';
+                    return;
+                }
+
+                exibirChamado(chamado);
+
+                const historico = await getHistoricoPorChamado(chamado.id);
+                exibirHistorico(historico);
+
+                document.getElementById('resultado-busca').style.display = 'block';
+
+            } catch (erro) {
+                console.error('Erro ao buscar chamado:', erro);
+                document.getElementById('nao-encontrado').style.display = 'block';
+            }
+        }
+
+        function exibirChamado(chamado) {
+            document.getElementById('txtProtocolo').textContent =
+                formatarProtocolo(chamado.protocolo);
+
+            document.getElementById('txtTipo').textContent =
+                chamado.tipo === 'DENUNCIA' ? 'Denúncia anônima' : 'Solicitação';
+
+            document.getElementById('txtData').textContent =
+                formatarData(chamado.dataCadastro);
+
+            const partes = [chamado.enderco, chamado.bairro]
+                .filter(function (v) { return v && v.length > 0; });
+            document.getElementById('txtLocalizacao').textContent =
+                partes.join(' — ') || '—';
+
+            document.getElementById('txtDescricao').textContent =
+                chamado.descricao || '—';
+
+            const badge = document.getElementById('badgeStatus');
+            badge.innerHTML = badgeStatusHTML(chamado.status);
+
+            document.getElementById('txtUltimaAtualizacao').textContent =
+                'Última atualização: ' + formatarData(chamado.dataCadastro);
+        }
+
+        function exibirHistorico(historico) {
+            const elTimeline    = document.getElementById('timeline-historico');
+            const elComentarios = document.getElementById('comentarios-prefeitura');
+
+            if (!historico || historico.length === 0) {
+                elTimeline.innerHTML    = '<p style="font-size:.875rem;color:var(--oa-muted);margin:0;">Nenhuma movimentação registrada.</p>';
+                elComentarios.innerHTML = '<p style="font-size:.875rem;color:var(--oa-muted);margin:0;">Nenhum comentário registrado.</p>';
+                return;
+            }
+
+            let htmlTimeline    = '<div class="timeline">';
+            let htmlComentarios = '';
+
+            historico.forEach(function (item) {
+                htmlTimeline +=
+                    '<div class="timeline-item">' +
+                        '<div class="ti-status">' + badgeStatusHTML(item.status) + '</div>' +
+                        '<div class="ti-meta">' +
+                            (item.nome || 'Sistema') + ' &middot; ' + formatarData(item.data) +
+                        '</div>' +
+                    '</div>';
+
+                if (item.comentario) {
+                    htmlComentarios +=
+                        '<div class="comment-item">' +
+                            item.comentario +
+                        '</div>';
+                }
+            });
+
+            htmlTimeline += '</div>';
+            elTimeline.innerHTML = htmlTimeline;
+
+            elComentarios.innerHTML = htmlComentarios ||
+                '<p style="font-size:.875rem;color:var(--oa-muted);margin:0;">Nenhum comentário registrado.</p>';
+        }
+
+        document.getElementById('inputProtocolo').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') buscarChamado();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Solicitação — ObservaAção</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="oa-topbar">
+        <a href="/" class="btn-topbar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Início
+        </a>
+        <span class="topbar-title">Nova Solicitação</span>
+        <button class="btn-topbar" title="Ajuda" aria-label="Ajuda">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container my-4" style="max-width:620px;">
+
+        <div id="secao-formulario">
+            <div class="form-card">
+                <form id="formChamado">
+
+                    <div class="mb-4">
+                        <label class="oa-label" for="categoria">
+                            Categoria do problema <span class="req">*</span>
+                        </label>
+                        <select class="oa-select" id="categoria" required>
+                            <option value="">Selecione a categoria</option>
+                        </select>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="mb-4">
+                        <label class="oa-label" for="descricao">
+                            Descrição <span class="req">*</span>
+                        </label>
+                        <textarea class="oa-textarea" id="descricao" rows="4"
+                            placeholder="Descreva o que está acontecendo com o máximo de detalhes..."
+                            maxlength="500" required
+                            oninput="atualizarContador(this, 'contDescricao')"></textarea>
+                        <div class="char-count">
+                            <span id="contDescricao">0</span> / 500
+                        </div>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="mb-4">
+                        <label class="oa-label" for="localizacao">
+                            Localização <span class="req">*</span>
+                        </label>
+                        <div class="input-wrap">
+                            <span class="input-ico">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </span>
+                            <input type="text" class="oa-input" id="localizacao"
+                                placeholder="Endereço ou ponto de referência"
+                                maxlength="500" required>
+                        </div>
+                        <p class="field-hint">Ex.: Rua das Flores, 123 — Jd. América</p>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="mb-4">
+                        <label class="oa-label">Prioridade</label>
+                        <div class="radio-group">
+                            <label class="radio-pill">
+                                <input type="radio" name="prioridade" value="BAIXA">
+                                Baixa
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="prioridade" value="MEDIA" checked>
+                                Média
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="prioridade" value="ALTA">
+                                Alta
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="mb-4">
+                        <label class="oa-label">Foto (opcional)</label>
+                        <div class="upload-zone" onclick="document.getElementById('inputFoto').click()"
+                             role="button" tabindex="0" aria-label="Adicionar foto">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                 width="36" height="36">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <div class="uz-title">Clique para adicionar uma foto</div>
+                            <div class="uz-hint">PNG, JPG até 5 MB</div>
+                            <input type="file" id="inputFoto" accept="image/*" style="display:none;">
+                        </div>
+                        <div id="nomeArquivo" style="font-size:.8rem; color:var(--oa-muted); margin-top:.4rem;"></div>
+                    </div>
+
+                    <button type="submit" id="btnEnviar"
+                            class="btn-oa btn-oa-primary"
+                            style="width:100%; justify-content:center; padding:.75rem; font-size:.95rem;">
+                        Enviar solicitação
+                    </button>
+                    <p style="text-align:center; font-size:.78rem; color:var(--oa-muted); margin-top:.75rem; margin-bottom:0;">
+                        Você receberá um número de protocolo para acompanhamento.
+                    </p>
+
+                </form>
+            </div>
+        </div>
+
+        <div id="secao-sucesso" style="display:none;">
+            <div class="success-card">
+                <div class="success-ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h4 style="font-family:var(--font-heading); font-weight:700; color:var(--oa-navy); margin-bottom:.5rem;">
+                    Solicitação registrada
+                </h4>
+                <p style="color:var(--oa-text-2); font-size:.95rem; margin-bottom:0;">
+                    Anote o protocolo abaixo para acompanhar o andamento.
+                </p>
+                <div class="protocol-box">
+                    <div class="pb-label">Número de protocolo</div>
+                    <div class="pb-number" id="numeroProtocolo">—</div>
+                </div>
+                <p style="font-size:.82rem; color:var(--oa-muted); margin-bottom:1.5rem;">
+                    Use este número em <strong>Consultar Protocolo</strong> para acompanhar.
+                </p>
+                <div class="d-flex gap-2 justify-content-center flex-wrap">
+                    <a href="/cidadao/acompanhar.html" class="btn-oa btn-oa-primary">
+                        Acompanhar agora
+                    </a>
+                    <a href="/" class="btn-oa btn-oa-ghost">
+                        Voltar ao início
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="oa-footer">
+        <div class="container text-center">
+            <small><strong>ObservaAção</strong> &copy; 2026 — Prefeitura de Maringá</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const categorias = await getCategorias();
+                const select = document.getElementById('categoria');
+                select.innerHTML = '<option value="">Selecione a categoria</option>';
+                categorias.forEach(function (cat) {
+                    const opt = document.createElement('option');
+                    opt.value = cat.id;
+                    opt.textContent = cat.nome;
+                    select.appendChild(opt);
+                });
+            } catch (erro) {
+                console.error('Erro ao carregar categorias:', erro);
+                document.getElementById('categoria').innerHTML =
+                    '<option value="">Erro ao carregar — verifique a API</option>';
+            }
+        });
+
+        function atualizarContador(campo, idContador) {
+            document.getElementById(idContador).textContent = campo.value.length;
+        }
+
+        document.getElementById('inputFoto').addEventListener('change', function () {
+            const nome = this.files[0] ? this.files[0].name : '';
+            document.getElementById('nomeArquivo').textContent = nome || '';
+        });
+
+        document.getElementById('formChamado').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('btnEnviar');
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+
+            try {
+                const categoriaId = document.getElementById('categoria').value;
+                const prioridade  = document.querySelector('input[name="prioridade"]:checked').value;
+                const localizacao = document.getElementById('localizacao').value.trim();
+
+                const chamado = {
+                    tipo:       'SOLICITACAO',
+                    descricao:  document.getElementById('descricao').value.trim(),
+                    enderco:    localizacao,
+                    bairro:     '',
+                    prioridade: prioridade,
+                    anonimo:    false,
+                    categoria:  { id: parseInt(categoriaId) }
+                };
+
+                const criado = await criarChamado(chamado);
+
+                document.getElementById('secao-formulario').style.display = 'none';
+                document.getElementById('secao-sucesso').style.display    = 'block';
+                document.getElementById('numeroProtocolo').textContent    = formatarProtocolo(criado.protocolo);
+
+            } catch (erro) {
+                console.error('Erro ao enviar:', erro);
+                alert(erro.message || 'Erro ao enviar a solicitação. Verifique se a API está rodando.');
+                btn.disabled = false;
+                btn.textContent = 'Enviar solicitação';
+            }
+        });
+
+    </script>
+</body>
+</html>

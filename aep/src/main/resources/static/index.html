@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ObservaAção — Prefeitura de Maringá</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <header class="oa-header">
+        <nav class="navbar navbar-expand-lg container py-2">
+            <a class="navbar-brand" href="/">
+                <span class="brand-mark">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </span>
+                ObservaAção
+            </a>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu"
+                    aria-controls="navMenu" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto ms-3 gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/" aria-current="page">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cidadao/novo-chamado.html">Nova Solicitação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cidadao/denuncia-anonima.html">Denúncia Anônima</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cidadao/acompanhar.html">Acompanhar</a>
+                    </li>
+                </ul>
+                <a href="/cidadao/acompanhar.html" class="btn-nav-cta ms-2">
+                    Consultar protocolo
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="oa-hero">
+        <div class="container">
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-7 col-md-8">
+                    <div class="hero-chip">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Prefeitura de Maringá — PR
+                    </div>
+                    <h1>Registre, acompanhe<br>e resolva com a cidade.</h1>
+                    <p class="hero-lead">
+                        Canal oficial de atendimento ao cidadão. Registre solicitações,
+                        faça denúncias anônimas e acompanhe o andamento das demandas
+                        em tempo real.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="/cidadao/novo-chamado.html" class="btn-hero-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Nova solicitação
+                        </a>
+                        <a href="/cidadao/acompanhar.html" class="btn-hero-ghost">
+                            Consultar protocolo
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                                <polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-4 d-none d-md-flex hero-visual">
+                    <svg viewBox="0 0 280 280" width="260" height="260"
+                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="140" cy="140" r="118" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1.5"/>
+                        <circle cx="140" cy="140" r="78"  fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                        <circle cx="140" cy="140" r="26"  fill="rgba(29,92,200,.35)"/>
+                        <circle cx="140" cy="140" r="16"  fill="rgba(29,92,200,.55)"/>
+                        <path d="M140 126 C131.5 126 125 132.7 125 141 C125 152 140 163 140 163 C140 163 155 152 155 141 C155 132.7 148.5 126 140 126Z"
+                              fill="white" opacity=".9"/>
+                        <circle cx="140" cy="140" r="4.5" fill="rgba(29,92,200,.8)"/>
+                        <line x1="140" y1="112" x2="140" y2="80"   stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+                        <line x1="165" y1="118" x2="187" y2="101"  stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+                        <line x1="172" y1="145" x2="208" y2="145"  stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+                        <line x1="165" y1="171" x2="187" y2="188"  stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+                        <line x1="140" y1="176" x2="140" y2="208"  stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+                        <line x1="115" y1="171" x2="93"  y2="188"  stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+                        <line x1="108" y1="145" x2="72"  y2="145"  stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+                        <line x1="115" y1="118" x2="93"  y2="101"  stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+                        <circle cx="140" cy="77"  r="5" fill="rgba(255,255,255,.35)"/>
+                        <circle cx="189" cy="99"  r="5" fill="rgba(255,255,255,.28)"/>
+                        <circle cx="210" cy="145" r="6" fill="rgba(29,92,200,.7)"/>
+                        <circle cx="189" cy="190" r="5" fill="rgba(255,255,255,.28)"/>
+                        <circle cx="140" cy="210" r="5" fill="rgba(255,255,255,.35)"/>
+                        <circle cx="91"  cy="190" r="5" fill="rgba(255,255,255,.28)"/>
+                        <circle cx="70"  cy="145" r="5" fill="rgba(255,255,255,.35)"/>
+                        <circle cx="91"  cy="99"  r="5" fill="rgba(255,255,255,.28)"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container my-4">
+        <div class="row g-3">
+
+            <div class="col-lg-8">
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <a href="/cidadao/novo-chamado.html" class="service-card h-100">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                    <polyline points="10 9 9 9 8 9"/>
+                                </svg>
+                            </div>
+                            <div class="sc-title">Nova Solicitação</div>
+                            <p class="sc-desc">Reporte problemas de infraestrutura, limpeza urbana e outros serviços municipais.</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/cidadao/denuncia-anonima.html" class="service-card h-100">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div class="sc-title">Denúncia Anônima</div>
+                            <p class="sc-desc">Registre denúncias de forma sigilosa. Nenhum dado pessoal é armazenado.</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/cidadao/acompanhar.html" class="service-card h-100">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                            </div>
+                            <div class="sc-title">Consultar Protocolo</div>
+                            <p class="sc-desc">Acompanhe o status e o histórico de qualquer chamado pelo número de protocolo.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="oa-section">
+                    <div class="section-eyebrow">Como funciona</div>
+                    <div class="steps-row">
+                        <div class="step-item">
+                            <span class="step-title">Registre</span>
+                            <p class="step-desc">Descreva o problema ou faça uma denúncia anônima</p>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-title">Protocolo</span>
+                            <p class="step-desc">Receba um número único para acompanhar</p>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-title">Análise</span>
+                            <p class="step-desc">A prefeitura avalia e direciona ao setor responsável</p>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-title">Resolução</span>
+                            <p class="step-desc">Acompanhe o andamento até a conclusão</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="sidebar-block">
+                    <div class="sidebar-eyebrow">Acesso rápido</div>
+                    <div class="quick-links">
+                        <a href="/cidadao/novo-chamado.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="16"/>
+                                <line x1="8" y1="12" x2="16" y2="12"/>
+                            </svg>
+                            Registrar solicitação
+                        </a>
+                        <a href="/cidadao/denuncia-anonima.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            Denúncia anônima
+                        </a>
+                        <a href="/cidadao/acompanhar.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            Consultar protocolo
+                        </a>
+                        <a href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            Perguntas frequentes
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-block">
+                    <div class="sidebar-eyebrow">Área restrita</div>
+                    <p style="font-size:.875rem; color:var(--oa-text-2); margin-bottom:1rem; line-height:1.55;">
+                        Acesso exclusivo para servidores e atendentes da prefeitura.
+                    </p>
+                    <a href="/servidor/painel.html" class="btn-oa btn-oa-outline"
+                       style="width:100%; justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+                        </svg>
+                        Painel do servidor
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="oa-footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-2 mb-md-0">
+                    <strong>ObservaAção</strong> &ensp;—&ensp; Prefeitura de Maringá, Paraná
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#">Acessibilidade</a>
+                    &ensp;·&ensp;
+                    <a href="#">Termos de uso</a>
+                    &ensp;·&ensp;
+                    <span>ODS 10 · ODS 11 · ODS 16</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

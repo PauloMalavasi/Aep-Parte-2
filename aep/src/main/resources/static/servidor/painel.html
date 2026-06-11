@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Servidor — ObservaAção</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="oa-topbar">
+        <button class="btn-topbar" onclick="window.location='/'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Início
+        </button>
+        <span class="topbar-title">Gerenciamento de Solicitações</span>
+        <div class="dropdown">
+            <button class="btn-topbar dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Servidor
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid px-4 my-4">
+
+        <!-- Cards de resumo -->
+        <div class="row g-3 mb-3">
+            <div class="col-6 col-md-3">
+                <div class="stat-card s-total">
+                    <div class="stat-num" id="totalChamados">—</div>
+                    <div class="stat-label">Total de chamados</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card s-open">
+                    <div class="stat-num" id="totalAbertos">—</div>
+                    <div class="stat-label">Em aberto</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card s-exec">
+                    <div class="stat-num" id="totalEmExecucao">—</div>
+                    <div class="stat-label">Em execução</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card s-done">
+                    <div class="stat-num" id="totalFinalizados">—</div>
+                    <div class="stat-label">Finalizados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-bar mb-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-2 col-6">
+                    <span class="filter-label">Bairro</span>
+                    <select class="oa-select" id="filtroBairro"
+                            style="padding:.45rem .75rem; font-size:.85rem;"
+                            onchange="filtrarTabela()">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span class="filter-label">Categoria</span>
+                    <select class="oa-select" id="filtroCategoria"
+                            style="padding:.45rem .75rem; font-size:.85rem;"
+                            onchange="filtrarTabela()">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span class="filter-label">Status</span>
+                    <select class="oa-select" id="filtroStatus"
+                            style="padding:.45rem .75rem; font-size:.85rem;"
+                            onchange="filtrarTabela()">
+                        <option value="">Todos</option>
+                        <option value="PENDENTE">Aberto</option>
+                        <option value="EM_ANALISE">Em Análise</option>
+                        <option value="EM_EXECUCAO">Em Execução</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                        <option value="CANCELADO">Cancelado</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-6">
+                    <span class="filter-label">De</span>
+                    <input type="date" class="oa-input" id="filtroDe"
+                           style="padding:.45rem .75rem; font-size:.85rem;"
+                           onchange="filtrarTabela()">
+                </div>
+                <div class="col-md-2 col-6">
+                    <span class="filter-label">Até</span>
+                    <input type="date" class="oa-input" id="filtroAte"
+                           style="padding:.45rem .75rem; font-size:.85rem;"
+                           onchange="filtrarTabela()">
+                </div>
+                <div class="col-md-2 col-6">
+                    <button class="btn-oa btn-oa-primary btn-oa-sm"
+                            style="width:100%; justify-content:center; margin-top:1.1rem;"
+                            onclick="carregarChamados()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="table-wrapper mb-3">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Protocolo</th>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Endereço</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th>Prioridade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoChamados">
+                        <tr>
+                            <td colspan="8" style="text-align:center; color:var(--oa-muted); padding:2rem;">
+                                Carregando...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Painéis de ação -->
+        <div id="painelAcoes" style="display:none;">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <div class="action-panel">
+                        <div class="ap-title">Atualizar status</div>
+                        <p style="font-size:.875rem; color:var(--oa-text-2); margin-bottom:1rem;">
+                            Protocolo selecionado:
+                            <strong id="painelProtocolo" style="font-family:var(--font-mono);">—</strong>
+                        </p>
+                        <label class="oa-label" style="font-size:.82rem;">Novo status</label>
+                        <div class="d-flex gap-2">
+                            <select class="oa-select" id="painelNovoStatus"
+                                    style="font-size:.875rem; padding:.5rem .75rem;">
+                                <option value="">Selecione...</option>
+                                <option value="EM_ANALISE">Em Análise</option>
+                                <option value="EM_EXECUCAO">Em Execução</option>
+                                <option value="FINALIZADO">Finalizado</option>
+                                <option value="CANCELADO">Cancelado</option>
+                            </select>
+                            <button class="btn-oa btn-oa-primary btn-oa-sm"
+                                    style="white-space:nowrap;" onclick="salvarStatus()">
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="action-panel">
+                        <div class="ap-title">Comentário para o cidadão</div>
+                        <textarea class="oa-textarea" id="painelComentario"
+                            style="font-size:.875rem; min-height:80px;"
+                            rows="3"
+                            placeholder="Digite uma mensagem que ficará visível para o cidadão..."></textarea>
+                        <div class="d-flex justify-content-end mt-2">
+                            <button class="btn-oa btn-oa-ghost btn-oa-sm" onclick="salvarComentario()">
+                                Salvar comentário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="oa-footer">
+        <div class="container text-center">
+            <small><strong>ObservaAção</strong> &copy; 2026 — Painel restrito</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+
+        let todosChamados = [];
+        let chamadoSelecionadoId = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarChamados();
+            carregarCategoriasFiltro();
+        });
+
+        async function carregarCategoriasFiltro() {
+            try {
+                const cats = await getCategorias();
+                const select = document.getElementById('filtroCategoria');
+                cats.forEach(function (cat) {
+                    const opt = document.createElement('option');
+                    opt.value = cat.id;
+                    opt.textContent = cat.nome;
+                    select.appendChild(opt);
+                });
+            } catch (e) {
+                console.error('Erro ao carregar categorias:', e);
+            }
+        }
+
+        async function carregarChamados() {
+            try {
+                todosChamados = await listarChamados();
+                atualizarCards();
+                popularFiltroBairro();
+                filtrarTabela();
+            } catch (erro) {
+                console.error('Erro ao carregar chamados:', erro);
+                document.getElementById('corpoChamados').innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;color:#DC2626;padding:2rem;">' +
+                    'Erro ao carregar. Verifique se a API está rodando.</td></tr>';
+            }
+        }
+
+        function atualizarCards() {
+            var abertos = 0, emExecucao = 0, finalizados = 0;
+            todosChamados.forEach(function (c) {
+                if (c.status === 'PENDENTE')    abertos++;
+                if (c.status === 'EM_EXECUCAO') emExecucao++;
+                if (c.status === 'FINALIZADO')  finalizados++;
+            });
+            document.getElementById('totalChamados').textContent  = todosChamados.length;
+            document.getElementById('totalAbertos').textContent    = abertos;
+            document.getElementById('totalEmExecucao').textContent = emExecucao;
+            document.getElementById('totalFinalizados').textContent = finalizados;
+        }
+
+        function popularFiltroBairro() {
+            const select = document.getElementById('filtroBairro');
+            const atual  = select.value;
+            const bairros = todosChamados
+                .map(function (c) { return c.bairro; })
+                .filter(function (b) { return b && b.trim().length > 0; });
+            const unicos = [...new Set(bairros)].sort();
+            select.innerHTML = '<option value="">Todos</option>';
+            unicos.forEach(function (b) {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.textContent = b;
+                if (b === atual) opt.selected = true;
+                select.appendChild(opt);
+            });
+        }
+
+        function filtrarTabela() {
+            const filtroStatus    = document.getElementById('filtroStatus').value;
+            const filtroBairro    = document.getElementById('filtroBairro').value;
+            const filtroCategoria = document.getElementById('filtroCategoria').value;
+            const filtroDe        = document.getElementById('filtroDe').value;
+            const filtroAte       = document.getElementById('filtroAte').value;
+
+            var lista = todosChamados;
+
+            if (filtroStatus) {
+                lista = lista.filter(function (c) { return c.status === filtroStatus; });
+            }
+            if (filtroBairro) {
+                lista = lista.filter(function (c) { return c.bairro === filtroBairro; });
+            }
+            if (filtroCategoria) {
+                lista = lista.filter(function (c) {
+                    return c.categoria && String(c.categoria.id) === filtroCategoria;
+                });
+            }
+            if (filtroDe) {
+                var de = new Date(filtroDe);
+                lista = lista.filter(function (c) { return new Date(c.dataCadastro) >= de; });
+            }
+            if (filtroAte) {
+                var ate = new Date(filtroAte + 'T23:59:59');
+                lista = lista.filter(function (c) { return new Date(c.dataCadastro) <= ate; });
+            }
+
+            renderizarTabela(lista);
+        }
+
+        function renderizarTabela(chamados) {
+            const corpo = document.getElementById('corpoChamados');
+
+            if (chamados.length === 0) {
+                corpo.innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;color:var(--oa-muted);padding:2rem;">' +
+                    'Nenhum chamado encontrado.</td></tr>';
+                return;
+            }
+
+            var html = '';
+            chamados.forEach(function (c) {
+                const protocolo = formatarProtocolo(c.protocolo);
+                const categoria = c.categoria ? c.categoria.nome : '—';
+                const tipo      = c.tipo === 'DENUNCIA' ? 'Denúncia' : 'Solicitação';
+                const endereco  = c.enderco || c.bairro || '—';
+
+                html +=
+                    '<tr>' +
+                        '<td><span class="tc-proto">' + protocolo + '</span></td>' +
+                        '<td style="white-space:nowrap;font-size:.8rem;">' + formatarData(c.dataCadastro) + '</td>' +
+                        '<td style="font-size:.8rem;">' + tipo + '</td>' +
+                        '<td style="font-size:.8rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + endereco + '">' + endereco + '</td>' +
+                        '<td style="font-size:.8rem;">' + categoria + '</td>' +
+                        '<td>' + badgeStatusHTML(c.status) + '</td>' +
+                        '<td>' + badgePrioHTML(c.prioridade) + '</td>' +
+                        '<td>' +
+                            '<button class="btn-oa btn-oa-ghost btn-oa-sm" ' +
+                                'onclick="selecionarChamado(' + c.id + ',' + c.protocolo + ')" ' +
+                                'title="Gerenciar este chamado" style="padding:.3rem .6rem;">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' +
+                                     'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+                                     'width="14" height="14">' +
+                                    '<circle cx="12" cy="12" r="3"/>' +
+                                    '<path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>' +
+                                '</svg>' +
+                            '</button>' +
+                        '</td>' +
+                    '</tr>';
+            });
+
+            corpo.innerHTML = html;
+        }
+
+        function selecionarChamado(id, protocolo) {
+            chamadoSelecionadoId = id;
+            document.getElementById('painelProtocolo').textContent = formatarProtocolo(protocolo);
+            document.getElementById('painelNovoStatus').value      = '';
+            document.getElementById('painelComentario').value      = '';
+
+            const painel = document.getElementById('painelAcoes');
+            painel.style.display = 'block';
+            painel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function salvarStatus() {
+            const novoStatus = document.getElementById('painelNovoStatus').value;
+
+            if (!novoStatus) {
+                alert('Selecione um novo status.');
+                return;
+            }
+            if (!chamadoSelecionadoId) {
+                alert('Nenhum chamado selecionado.');
+                return;
+            }
+
+            try {
+                await atualizarStatus(chamadoSelecionadoId, novoStatus);
+                await carregarChamados();
+                alert('Status atualizado com sucesso!');
+            } catch (erro) {
+                console.error('Erro ao atualizar status:', erro);
+                alert(erro.message || 'Erro ao atualizar. Tente novamente.');
+            }
+        }
+
+        async function salvarComentario() {
+            const comentario = document.getElementById('painelComentario').value.trim();
+
+            if (!comentario) {
+                alert('Digite um comentário antes de salvar.');
+                return;
+            }
+            if (!chamadoSelecionadoId) {
+                alert('Nenhum chamado selecionado.');
+                return;
+            }
+
+            const statusAtual = document.getElementById('painelNovoStatus').value || 'PENDENTE';
+
+            try {
+                await adicionarHistorico(chamadoSelecionadoId, {
+                    nome:       'Servidor',
+                    status:     statusAtual,
+                    comentario: comentario
+                });
+                alert('Comentário salvo!');
+                document.getElementById('painelComentario').value = '';
+            } catch (erro) {
+                console.error('Erro ao salvar comentário:', erro);
+                alert(erro.message || 'Erro ao salvar. Tente novamente.');
+            }
+        }
+
+    </script>
+</body>
+</html>
